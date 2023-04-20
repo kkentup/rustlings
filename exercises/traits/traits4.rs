@@ -4,7 +4,8 @@
 // Don't change any line other than the marked one.
 // Execute `rustlings hint traits4` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// ***
+// use T1, T2 for diff types, T doesn't work in this case
 
 pub trait Licensed {
     fn licensing_info(&self) -> String {
@@ -20,7 +21,7 @@ impl Licensed for SomeSoftware {}
 impl Licensed for OtherSoftware {}
 
 // YOU MAY ONLY CHANGE THE NEXT LINE
-fn compare_license_types(software: ??, software_two: ??) -> bool {
+fn compare_license_types<T1: Licensed, T2: Licensed>(software: T1, software_two: T2) -> bool {
     software.licensing_info() == software_two.licensing_info()
 }
 
