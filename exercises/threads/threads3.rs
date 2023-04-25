@@ -1,7 +1,29 @@
 // threads3.rs
 // Execute `rustlings hint threads3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// ***
+/* interesting compile error
+Compiling of exercises/threads/threads3.rs failed! Please try again. Here's the output:
+error[E0382]: use of moved value: `tx`
+  --> exercises/threads/threads3.rs:40:19
+   |
+27 | fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
+   |                      -- move occurs because `tx` has type `Sender<u32>`, which does not implement the `Copy` trait
+...
+32 |     thread::spawn(move || {
+   |                   ------- value moved into closure here
+...
+35 |             tx.clone().send(*val).unwrap();
+   |             -- variable moved due to use in closure
+...
+40 |     thread::spawn(move || {
+   |                   ^^^^^^^ value used here after move
+...
+43 |             tx.send(*val).unwrap();
+   |             -- use occurs due to use in closure
+
+error: aborting due to previous error
+*/
 
 use std::sync::mpsc;
 use std::sync::Arc;
@@ -29,10 +51,11 @@ fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
     let qc1 = Arc::clone(&qc);
     let qc2 = Arc::clone(&qc);
 
+    let tx1 = tx.clone();
     thread::spawn(move || {
         for val in &qc1.first_half {
             println!("sending {:?}", val);
-            tx.send(*val).unwrap();
+            tx1.send(*val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });

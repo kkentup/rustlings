@@ -1,7 +1,8 @@
 // iterators4.rs
 // Execute `rustlings hint iterators4` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// ***
+// fold, https://hackmd.io/@rust-libs/S1V2sB_1d
 
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return the factorial of num
@@ -13,6 +14,9 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+
+    // Kent: cannot use [1..num].iter().fold()
+    (0..num+1).fold(1, |sum, val| if val == 0 {sum} else {sum * val})
 }
 
 #[cfg(test)]
